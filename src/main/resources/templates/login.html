@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Admin Login')}"></head>
+<body>
+<header th:replace="~{fragments :: nav(false)}"></header>
+<main>
+  <div class="panel" style="max-width:420px;margin:auto">
+    <h1>Admin Login</h1>
+    <div class="alert bad" th:if="${param.error}">Invalid username or password.</div>
+    <div class="alert ok" th:if="${param.logout}">You have been logged out.</div>
+    <form th:action="@{/login}" method="post">
+      <label>Username</label><input name="username" autofocus>
+      <label>Password</label><input type="password" name="password">
+      <p><button type="submit">Login</button></p>
+    </form>
+  </div>
+</main>
+</body>
+</html>

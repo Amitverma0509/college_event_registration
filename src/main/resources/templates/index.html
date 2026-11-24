@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Upcoming Events')}"></head>
+<body>
+<header th:replace="~{fragments :: nav(false)}"></header>
+<main>
+  <h1>Upcoming Events</h1>
+  <div class="alert ok" th:if="${success}" th:text="${success}"></div>
+  <p class="muted" th:if="${#lists.isEmpty(events)}">No upcoming events right now. Check back soon.</p>
+  <div class="grid">
+    <div class="card" th:each="e : ${events}">
+      <h2 th:text="${e.title}">Title</h2>
+      <p class="muted" th:text="${#temporals.format(e.eventDate,'dd MMM yyyy, hh:mm a')} + ' · ' + ${e.venue}"></p>
+      <p th:text="${e.description}"></p>
+      <div class="bar" th:classappend="${e.full} ? 'full'"><div th:style="'width:' + ${e.maxParticipants > 0 ? (e.registered * 100 / e.maxParticipants) : 0} + '%'"></div></div>
+      <p class="muted" th:text="${e.registered} + ' / ' + ${e.maxParticipants} + ' registered · ' + ${e.seatsLeft} + ' seats left'"></p>
+      <a class="btn" th:unless="${e.full}" th:href="@{/events/{id}/register(id=${e.id})}">Register</a>
+      <span class="btn disabled" th:if="${e.full}">Event Full</span>
+    </div>
+  </div>
+</main>
+</body>
+</html>

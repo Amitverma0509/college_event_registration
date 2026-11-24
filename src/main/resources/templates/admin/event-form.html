@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Event Form')}"></head>
+<body>
+<header th:replace="~{fragments :: nav(true)}"></header>
+<main>
+  <div class="panel">
+    <h1 th:text="${event.id == null} ? 'New Event' : 'Edit Event'"></h1>
+    <form th:action="@{/admin/events}" th:object="${event}" method="post">
+      <input type="hidden" th:field="*{id}">
+      <label>Title</label><input th:field="*{title}">
+      <div class="error" th:errors="*{title}"></div>
+      <label>Description</label><textarea rows="3" th:field="*{description}"></textarea>
+      <label>Venue</label><input th:field="*{venue}">
+      <div class="error" th:errors="*{venue}"></div>
+      <label>Date and time</label><input type="datetime-local" th:field="*{eventDate}">
+      <div class="error" th:errors="*{eventDate}"></div>
+      <label>Participant limit</label><input type="number" min="1" th:field="*{maxParticipants}">
+      <div class="error" th:errors="*{maxParticipants}"></div>
+      <p><button type="submit">Save</button> <a class="btn gray" th:href="@{/admin}">Cancel</a></p>
+    </form>
+  </div>
+</main>
+</body>
+</html>

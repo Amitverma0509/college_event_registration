@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${title} + ' | College Events'">College Events</title>
+  <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+<header th:fragment="nav(admin)">
+  <p class="brand">College Event Registration</p>
+  <nav>
+    <a th:href="@{/}">Events</a>
+    <a th:href="@{/admin}">Admin</a>
+    <form th:if="${admin}" th:action="@{/logout}" method="post"><button class="gray">Logout</button></form>
+  </nav>
+</header>
+</body>
+</html>

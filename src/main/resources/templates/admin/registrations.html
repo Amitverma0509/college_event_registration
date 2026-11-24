@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Registrations')}"></head>
+<body>
+<header th:replace="~{fragments :: nav(true)}"></header>
+<main>
+  <h1 th:text="${event.title} + ' - Registrations'"></h1>
+  <p class="muted" th:text="${event.registered} + ' of ' + ${event.maxParticipants} + ' seats filled'"></p>
+  <p>
+    <a class="btn gray" th:href="@{/admin}">Back</a>
+    <a class="btn" th:href="@{/admin/events/{id}/registrations.csv(id=${event.id})}">Download CSV</a>
+  </p>
+  <p class="muted" th:if="${#lists.isEmpty(registrations)}">No registrations yet.</p>
+  <div class="table-wrap" th:unless="${#lists.isEmpty(registrations)}">
+  <table>
+    <tr><th>#</th><th>Name</th><th>Email</th><th>Roll No</th><th>Branch</th><th>Registered</th><th></th></tr>
+    <tr th:each="r, i : ${registrations}">
+      <td th:text="${i.count}"></td>
+      <td th:text="${r.studentName}"></td>
+      <td th:text="${r.email}"></td>
+      <td th:text="${r.rollNo}"></td>
+      <td th:text="${r.branch}"></td>
+      <td th:text="${#temporals.format(r.registeredAt,'dd MMM yyyy, hh:mm a')}"></td>
+      <td class="actions">
+        <form th:action="@{/admin/registrations/{id}/delete(id=${r.id})}" method="post" onsubmit="return confirm('Cancel this registration?')">
+          <button class="red">Cancel</button>
+        </form>
+      </td>
+    </tr>
+  </table>
+  </div>
+</main>
+</body>
+</html>

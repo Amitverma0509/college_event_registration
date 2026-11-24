@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Register')}"></head>
+<body>
+
+<header th:replace="~{fragments :: nav(false)}"></header>
+
+<main>
+  <div class="panel">
+
+    <h1>Register: <span th:text="${event.title}"></span></h1>
+
+    <p class="muted"
+       th:text="${#temporals.format(event.eventDate,'dd MMM yyyy, hh:mm a')} + ' · ' + ${event.venue} + ' · ' + ${event.seatsLeft} + ' seats left'">
+    </p>
+
+    <form th:action="@{/events/{id}/register(id=${event.id})}"
+          th:object="${registration}"
+          method="post">
+
+      <!-- Global validation errors -->
+      <div class="alert bad" th:if="${#fields.hasGlobalErrors()}">
+        <div th:each="err : ${#fields.globalErrors()}"
+             th:text="${err}">
+        </div>
+      </div>
+
+      <label>Full name</label>
+      <input th:field="*{studentName}">
+      <div class="error" th:errors="*{studentName}"></div>
+
+      <label>College email</label>
+      <input type="email" th:field="*{email}">
+      <div class="error" th:errors="*{email}"></div>
+
+      <label>Roll number</label>
+      <input th:field="*{rollNo}">
+      <div class="error" th:errors="*{rollNo}"></div>
+
+      <label>Branch</label>
+      <input th:field="*{branch}" placeholder="e.g. CSE">
+      <div class="error" th:errors="*{branch}"></div>
+
+      <p>
+        <button type="submit">Submit registration</button>
+        <a class="btn gray" th:href="@{/}">Back</a>
+      </p>
+
+    </form>
+  </div>
+</main>
+
+</body>
+</html>
